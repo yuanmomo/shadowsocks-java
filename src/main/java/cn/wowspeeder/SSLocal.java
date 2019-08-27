@@ -26,11 +26,7 @@ public class SSLocal {
     private static EventLoopGroup workerGroup = new NioEventLoopGroup();
 
 
-    public void start() throws Exception {
-            startSingle("127.0.0.1",3086,"127.0.0.1",20000,"20000","aes-256-cfb");
-    }
-
-    private void startSingle(String socks5Server, Integer socks5Port, String server, Integer port, String password, String method) throws Exception {
+    public void startSingle(String socks5Server, Integer socks5Port, String server, Integer port, String password, String method) throws Exception {
         ServerBootstrap tcpBootstrap = new ServerBootstrap();
 
         //local socks5  server ,tcp
@@ -83,7 +79,7 @@ public class SSLocal {
 //        ;
 //        udpBootstrap.bind(socks5Server, socks5Port).sync();
 
-        logger.info("listen at {}:{}", socks5Server, socks5Port);
+        logger.info("listen at {} with password:[{}],method:[{}]", socks5Port,password,method);
     }
 
     public void stop() {
@@ -98,7 +94,7 @@ public class SSLocal {
 
     public static void main(String[] args) throws Exception {
         try {
-            new SSLocal().start();
+            new SSLocal().startSingle("127.0.0.1", 3086, "127.0.0.1", 20000, "20000", "aes-256-cfb");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);

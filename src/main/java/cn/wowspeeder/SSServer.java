@@ -26,14 +26,10 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 public class SSServer {
     private static InternalLogger logger = InternalLoggerFactory.getInstance(SSServer.class);
 
-    private static EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private static EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private static EventLoopGroup bossGroup = new NioEventLoopGroup(2);
+    private static EventLoopGroup workerGroup = new NioEventLoopGroup(32);
 
-    public void start() throws Exception {
-        startSingle("127.0.0.1",20000,"20000","aes-256-cfb");
-    }
-
-    private void startSingle(String server, Integer port, String password, String method) throws Exception {
+    public void startSingle(Integer port, String password, String method) throws Exception {
         ServerBootstrap tcpBootstrap = new ServerBootstrap();
         tcpBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 5120)
@@ -89,7 +85,7 @@ public class SSServer {
                 });
 
 //            logger.info("TCP Start At Port " + config.get_localPort());
-        tcpBootstrap.bind(server, port).sync();
+        tcpBootstrap.bind(port).sync();
 
         //udp server
 //        Bootstrap udpBootstrap = new Bootstrap();
@@ -126,7 +122,7 @@ public class SSServer {
 //                })
 //        ;
 //        udpBootstrap.bind(server, port).sync();
-        logger.info("listen at {}:{}", server, port);
+        logger.info("listen at {} with password:[{}],method:[{}]", port,password,method);
     }
 
     public void stop() {
@@ -142,7 +138,7 @@ public class SSServer {
 
     public static void main(String[] args) throws InterruptedException {
         try {
-            new SSServer().start();
+            new SSServer().startSingle(20000,"20000","aes-256-cfb");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
