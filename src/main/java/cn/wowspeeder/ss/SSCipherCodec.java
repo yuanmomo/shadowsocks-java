@@ -1,16 +1,19 @@
 package cn.wowspeeder.ss;
 
+import java.util.List;
+
 import cn.wowspeeder.encryption.CryptUtil;
 import cn.wowspeeder.encryption.ICrypt;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageCodec;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-import java.util.List;
 
+@ChannelHandler.Sharable
 public class SSCipherCodec extends MessageToMessageCodec<Object, Object> {
     private static InternalLogger logger = InternalLoggerFactory.getInstance(SSCipherCodec.class);
 

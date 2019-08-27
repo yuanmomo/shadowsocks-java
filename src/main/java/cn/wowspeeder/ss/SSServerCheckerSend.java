@@ -1,6 +1,9 @@
 package cn.wowspeeder.ss;
 
+import java.net.InetSocketAddress;
+
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
@@ -8,8 +11,7 @@ import io.netty.channel.socket.DatagramPacket;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-import java.net.InetSocketAddress;
-
+@ChannelHandler.Sharable
 public class SSServerCheckerSend extends ChannelOutboundHandlerAdapter {
     private static InternalLogger logger =  InternalLoggerFactory.getInstance(SSServerCheckerSend.class);
 

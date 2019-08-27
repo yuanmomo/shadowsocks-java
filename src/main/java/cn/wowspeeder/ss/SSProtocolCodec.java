@@ -1,18 +1,19 @@
 package cn.wowspeeder.ss;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetSocketAddress;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageCodec;
 import io.netty.handler.codec.socks.SocksAddressType;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
-
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetSocketAddress;
-import java.util.List;
 
 /**
  * https://www.shadowsocks.org/en/spec/Protocol.html
@@ -24,6 +25,7 @@ import java.util.List;
  * 0x04: host is a 16-byte IPv6 address.
  * The port number is a 2-byte big-endian unsigned integer.
  **/
+@ChannelHandler.Sharable
 public class SSProtocolCodec extends MessageToMessageCodec<Object, Object> {
     private static InternalLogger logger = InternalLoggerFactory.getInstance(SSProtocolCodec.class);
     private boolean isSSLocal = false;

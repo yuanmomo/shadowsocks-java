@@ -1,13 +1,15 @@
 package cn.wowspeeder.ss;
 
+import java.net.InetSocketAddress;
+
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-import java.net.InetSocketAddress;
-
+@ChannelHandler.Sharable
 public class SSServerCheckerReceive extends SimpleChannelInboundHandler<Object> {
     private static InternalLogger logger = InternalLoggerFactory.getInstance(SSServerCheckerReceive.class);
 
