@@ -78,6 +78,7 @@ public class SSLocal {
 //                })
 //        ;
 //        udpBootstrap.bind(socks5Server, socks5Port).sync();
+        Application.writeProxyLineToFile(socks5Server,socks5Port);
 
         logger.info("listen at {} with password:[{}],method:[{}]", socks5Port,password,method);
     }
