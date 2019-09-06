@@ -51,7 +51,7 @@ public class SSProtocolCodec extends MessageToMessageCodec<Object, Object> {
             throw new Exception("unsupported msg type:" + msg.getClass());
         }
 
-        logger.debug("encode " + buf.readableBytes());
+        logger.debug("ss before " + buf.readableBytes());
         //组装ss协议
         //udp [target address][payload]
         //tcp only [payload]
@@ -85,9 +85,9 @@ public class SSProtocolCodec extends MessageToMessageCodec<Object, Object> {
             ByteBuf addrBuff = Unpooled.buffer(128);
             ssAddr.encodeAsByteBuf(addrBuff);
 
-            logger.debug("encode {} {}", buf.readableBytes());
+            logger.debug("ss {} {}", buf.readableBytes());
             buf = Unpooled.wrappedBuffer(addrBuff, buf.retain());
-            logger.debug("encode {} {}", buf.readableBytes());
+            logger.debug("ss {} {}", buf.readableBytes());
         }
 
         if (msg instanceof DatagramPacket) {
@@ -96,8 +96,8 @@ public class SSProtocolCodec extends MessageToMessageCodec<Object, Object> {
             msg = buf;
         }
 
+        logger.debug("ss done after {}", buf.readableBytes());
         out.add(msg);
-        logger.debug("encode done");
     }
 
     @Override

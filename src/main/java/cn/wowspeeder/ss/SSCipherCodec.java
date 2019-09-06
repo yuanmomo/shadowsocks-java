@@ -5,6 +5,7 @@ import java.util.List;
 import cn.wowspeeder.encryption.CryptUtil;
 import cn.wowspeeder.encryption.ICrypt;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
@@ -28,7 +29,7 @@ public class SSCipherCodec extends MessageToMessageCodec<Object, Object> {
             throw new Exception("unsupported msg type:" + msg.getClass());
         }
 
-        logger.debug("encode msg size:" + buf.readableBytes());
+        logger.debug("encode msg size before: " + buf.readableBytes());
         ICrypt _crypt = ctx.channel().attr(SSCommon.CIPHER).get();
 //        Boolean isUdp = ctx.channel().attr(SSCommon.IS_UDP).get();
         byte[] encryptedData = CryptUtil.encrypt(_crypt, buf);
@@ -36,9 +37,8 @@ public class SSCipherCodec extends MessageToMessageCodec<Object, Object> {
             return;
         }
 //        logger.debug("encode after encryptedData size:{}",encryptedData.length);
-        buf.retain().clear().writeBytes(encryptedData);
-        out.add(msg);
-        logger.debug("encode done:");
+        out.add(Unpooled.directBuffer(encryptedData.length).writeBytes(encryptedData));
+        logger.debug("encode done after: {} ",buf.readableBytes());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SSCipherCodec extends MessageToMessageCodec<Object, Object> {
         } else {
             throw new Exception("unsupported msg type:" + msg.getClass());
         }
-        logger.debug("decode msg size:" + buf.readableBytes());
+        logger.debug("decode msg size before: " + buf.readableBytes());
         ICrypt _crypt = ctx.channel().attr(SSCommon.CIPHER).get();
         byte[] data = CryptUtil.decrypt(_crypt, buf);
         if (data == null || data.length == 0) {
@@ -60,6 +60,7 @@ public class SSCipherCodec extends MessageToMessageCodec<Object, Object> {
         logger.debug((ctx.channel().attr(SSCommon.IS_UDP).get() ? "(UDP)" : "(TCP)") + " decode after:" + data.length);
 //        logger.debug("channel id:{}  decode text:{}", ctx.channel().id(), new String(data, Charset.forName("gbk")));
         buf.retain().clear().writeBytes(data);
+        logger.debug("decode msg size after: " + buf.readableBytes());
         out.add(msg);//
     }
 }
