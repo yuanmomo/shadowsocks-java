@@ -22,12 +22,12 @@
 	</appenders>
 
 	<loggers>
-		<AsyncLogger name="org.netty" level="info" additivity="false"
+		<AsyncLogger name="org.netty" level="debug" additivity="false"
 			includeLocation="true">
 			<AppenderRef ref="asynLogger" />
 			<AppenderRef ref="Console" />
 		</AsyncLogger>
-		<AsyncRoot level="info" includeLocation="true">
+		<AsyncRoot level="debug" includeLocation="true">
 			<AppenderRef ref="asynLogger" />
 			<AppenderRef ref="Console" />
 		</AsyncRoot>

@@ -22,10 +22,10 @@ public class Application {
 
     private static InternalLogger logger = InternalLoggerFactory.getInstance(Application.class);
 
-    public static final String METHOD = "aes-256-cfb";
+    public static final String METHOD = "aes-256-gcm";
 
     public static final int SERVER_START_PORT=20000;
-    public static final int CLIENT_START_PORT=30000;
+    public static final int CLIENT_START_PORT=3086;
 
     public static final Path SOCKS_PROXY_FILE = Paths.get("proxy.txt");
 
@@ -49,7 +49,7 @@ public class Application {
         String countValue = commandLine.getOptionValue("num", "1");
         String serverIp = commandLine.getOptionValue("sip", "60.251.180.188");
 
-        String password =  "ygDa4P8JswqlTR7do_%s";
+        String password =  "gdyVb0lcQrcJMsi7yaAKpC_%s";
 
         // start 指定启动的数量
        int count = 1;
